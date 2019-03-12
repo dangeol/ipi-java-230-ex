@@ -3,25 +3,31 @@ package com.ipiecoles.java.java230.model;
 import com.ipiecoles.java.java230.exceptions.TechnicienException;
 import org.joda.time.LocalDate;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.util.Objects;
 
 @Entity
 public class Technicien extends Employe implements Comparable<Technicien> {
 
+
 	@ManyToOne
-	@JoinColumn(name = "manager_id")
 	private Manager manager;
 
 	private Integer grade;
-	
+
 	public Technicien() {
 
 	}
-		
-	public Technicien(String nom, String prenom, String matricule, LocalDate dateEmbauche, Double salaire, Integer grade) throws TechnicienException {
+
+	public Technicien(String nom, String prenom, String matricule, LocalDate dateEmbauche, Double salaire, Integer grade) {
 		super(nom, prenom, matricule, dateEmbauche, salaire);
-		this.setGrade(grade);
+		try {
+			this.setGrade(grade);
+		} catch (TechnicienException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Double getPrimeAnnuelle() {
@@ -50,12 +56,12 @@ public class Technicien extends Employe implements Comparable<Technicien> {
 
 	/**
 	 * @param grade the grade to set
-	 * @throws TechnicienException 
+	 * @throws TechnicienException
 	 */
 	public void setGrade(Integer grade) throws TechnicienException {
-		/*if(grade <= 0 || grade > 5) {
+		if(grade <= 0 || grade > 5) {
 			throw new TechnicienException(TechnicienException.GRADE, this, grade);
-		}*/
+		}
 		this.grade = grade;
 	}
 
